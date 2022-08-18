@@ -8,9 +8,9 @@ import {
 } from "matchstick-as/assembly/index"
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { Approval } from "../generated/schema"
-import { Approval as ApprovalEvent } from "../generated/Token/Token"
-import { handleApproval } from "../src/token"
-import { createApprovalEvent } from "./token-utils"
+import { Approval as ApprovalEvent } from "../generated/Contract/Contract"
+import { handleApproval } from "../src/contract"
+import { createApprovalEvent } from "./contract-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
@@ -21,8 +21,8 @@ describe("Describe entity assertions", () => {
     let approved = Address.fromString(
       "0x0000000000000000000000000000000000000001"
     )
-    let tokenId = BigInt.fromI32(234)
-    let newApprovalEvent = createApprovalEvent(owner, approved, tokenId)
+    let ennemyId = BigInt.fromI32(234)
+    let newApprovalEvent = createApprovalEvent(owner, approved, ennemyId)
     handleApproval(newApprovalEvent)
   })
 
@@ -52,7 +52,7 @@ describe("Describe entity assertions", () => {
     assert.fieldEquals(
       "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "tokenId",
+      "ennemyId",
       "234"
     )
 

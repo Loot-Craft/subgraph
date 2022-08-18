@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Token extends Entity {
+export class Approval extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class Token extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Token entity without an ID");
+    assert(id != null, "Cannot save Approval entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Approval must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Token", id.toString(), this);
+      store.set("Approval", id.toString(), this);
     }
   }
 
-  static load(id: string): Token | null {
-    return changetype<Token | null>(store.get("Token", id));
+  static load(id: string): Approval | null {
+    return changetype<Approval | null>(store.get("Approval", id));
   }
 
   get id(): string {
@@ -42,87 +42,35 @@ export class Token extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenID(): BigInt {
-    let value = this.get("tokenID");
-    return value!.toBigInt();
-  }
-
-  set tokenID(value: BigInt) {
-    this.set("tokenID", Value.fromBigInt(value));
-  }
-
-  get contentURI(): string | null {
-    let value = this.get("contentURI");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set contentURI(value: string | null) {
-    if (!value) {
-      this.unset("contentURI");
-    } else {
-      this.set("contentURI", Value.fromString(<string>value));
-    }
-  }
-
-  get tokenIPFSPath(): string | null {
-    let value = this.get("tokenIPFSPath");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set tokenIPFSPath(value: string | null) {
-    if (!value) {
-      this.unset("tokenIPFSPath");
-    } else {
-      this.set("tokenIPFSPath", Value.fromString(<string>value));
-    }
-  }
-
-  get name(): string {
-    let value = this.get("name");
-    return value!.toString();
-  }
-
-  set name(value: string) {
-    this.set("name", Value.fromString(value));
-  }
-
-  get createdAtTimestamp(): BigInt {
-    let value = this.get("createdAtTimestamp");
-    return value!.toBigInt();
-  }
-
-  set createdAtTimestamp(value: BigInt) {
-    this.set("createdAtTimestamp", Value.fromBigInt(value));
-  }
-
-  get creator(): string {
-    let value = this.get("creator");
-    return value!.toString();
-  }
-
-  set creator(value: string) {
-    this.set("creator", Value.fromString(value));
-  }
-
-  get owner(): string {
+  get owner(): Bytes {
     let value = this.get("owner");
-    return value!.toString();
+    return value!.toBytes();
   }
 
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get approved(): Bytes {
+    let value = this.get("approved");
+    return value!.toBytes();
+  }
+
+  set approved(value: Bytes) {
+    this.set("approved", Value.fromBytes(value));
+  }
+
+  get ennemyId(): BigInt {
+    let value = this.get("ennemyId");
+    return value!.toBigInt();
+  }
+
+  set ennemyId(value: BigInt) {
+    this.set("ennemyId", Value.fromBigInt(value));
   }
 }
 
-export class User extends Entity {
+export class ApprovalForAll extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -130,18 +78,18 @@ export class User extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save User entity without an ID");
+    assert(id != null, "Cannot save ApprovalForAll entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type User must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type ApprovalForAll must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("User", id.toString(), this);
+      store.set("ApprovalForAll", id.toString(), this);
     }
   }
 
-  static load(id: string): User | null {
-    return changetype<User | null>(store.get("User", id));
+  static load(id: string): ApprovalForAll | null {
+    return changetype<ApprovalForAll | null>(store.get("ApprovalForAll", id));
   }
 
   get id(): string {
@@ -153,21 +101,141 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokens(): Array<string> {
-    let value = this.get("tokens");
-    return value!.toStringArray();
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
   }
 
-  set tokens(value: Array<string>) {
-    this.set("tokens", Value.fromStringArray(value));
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
   }
 
-  get created(): Array<string> {
-    let value = this.get("created");
-    return value!.toStringArray();
+  get operator(): Bytes {
+    let value = this.get("operator");
+    return value!.toBytes();
   }
 
-  set created(value: Array<string>) {
-    this.set("created", Value.fromStringArray(value));
+  set operator(value: Bytes) {
+    this.set("operator", Value.fromBytes(value));
+  }
+
+  get approved(): boolean {
+    let value = this.get("approved");
+    return value!.toBoolean();
+  }
+
+  set approved(value: boolean) {
+    this.set("approved", Value.fromBoolean(value));
+  }
+}
+
+export class OwnershipTransferred extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save OwnershipTransferred entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OwnershipTransferred must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OwnershipTransferred", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OwnershipTransferred | null {
+    return changetype<OwnershipTransferred | null>(
+      store.get("OwnershipTransferred", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get previousOwner(): Bytes {
+    let value = this.get("previousOwner");
+    return value!.toBytes();
+  }
+
+  set previousOwner(value: Bytes) {
+    this.set("previousOwner", Value.fromBytes(value));
+  }
+
+  get newOwner(): Bytes {
+    let value = this.get("newOwner");
+    return value!.toBytes();
+  }
+
+  set newOwner(value: Bytes) {
+    this.set("newOwner", Value.fromBytes(value));
+  }
+}
+
+export class Transfer extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Transfer entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Transfer must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Transfer", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Transfer | null {
+    return changetype<Transfer | null>(store.get("Transfer", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value!.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value!.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get ennemyId(): BigInt {
+    let value = this.get("ennemyId");
+    return value!.toBigInt();
+  }
+
+  set ennemyId(value: BigInt) {
+    this.set("ennemyId", Value.fromBigInt(value));
   }
 }

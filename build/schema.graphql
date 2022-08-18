@@ -1,16 +1,26 @@
-type Token @entity {
+type Approval @entity {
   id: ID!
-  tokenID: BigInt!
-  contentURI: String
-  tokenIPFSPath: String
-  name: String!
-  createdAtTimestamp: BigInt!
-  creator: User!
-  owner: User!
+  owner: Bytes! # address
+  approved: Bytes! # address
+  ennemyId: BigInt! # uint256
 }
 
-type User @entity {
+type ApprovalForAll @entity {
   id: ID!
-  tokens: [Token!]! @derivedFrom(field: "owner")
-  created: [Token!]! @derivedFrom(field: "creator")
+  owner: Bytes! # address
+  operator: Bytes! # address
+  approved: Boolean! # bool
+}
+
+type OwnershipTransferred @entity {
+  id: ID!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+}
+
+type Transfer @entity {
+  id: ID!
+  from: Bytes! # address
+  to: Bytes! # address
+  ennemyId: BigInt! # uint256
 }
