@@ -1,13 +1,13 @@
 {
-  "name": "loot-craft-battle",
+  "name": "lootcraft-battle",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ loot-craft-battle",
-    "create-local": "graph create --node http://localhost:8020/ loot-craft-battle",
-    "remove-local": "graph remove --node http://localhost:8020/ loot-craft-battle",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 loot-craft-battle",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ lootcraft-battle",
+    "create-local": "graph create --node http://localhost:8020/ lootcraft-battle",
+    "remove-local": "graph remove --node http://localhost:8020/ lootcraft-battle",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 lootcraft-battle",
     "test": "graph test"
   },
   "dependencies": {
